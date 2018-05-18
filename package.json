@@ -1,0 +1,21 @@
+{
+  "name": "ZipData",
+  "version": "1.0.0",
+  "description": "peerstreet api",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "keywords": [
+    "API"
+  ],
+  "author": "Amit Jha",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.17.4"
+  },
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
