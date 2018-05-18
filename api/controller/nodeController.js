@@ -12,21 +12,18 @@ exports.read_a_task = function(req, res) {
     function readFile(path, fn) {
     fs.readFile(path, 'utf8', function (err, data) {
         if (err) {
-            console.log(err)
             res.send(err);
         }
-        // return data;
-    fn(data)
+        fn(data) //callback function
         });
     }
 
-// get zip data
+    // get zip data
         readFile(zip_to_cbsa, function(data) {
             var zipFileDataLines = data.split("\r"),
                 zipColsDict = {},
                 zipCols;
             //get Zip and CBSA
-            // console.log(zipFileDataLines.length)
 
             for (var i = 1; i < zipFileDataLines.length; i++) {
                 zipCols = zipFileDataLines[i].split(",");
@@ -40,21 +37,17 @@ exports.read_a_task = function(req, res) {
                 cbsaArr.push(zipCBSAObj);
             }
             getMsaData(cbsaArr);
-            console.log(`zipCbsa ${cbsaArr}`)
-            // res.json(cbsaArr);
 
         });
-// get msa data
+    // get msa data
     function getMsaData(cbsaArr) {
         readFile(cbsa_to_msa, function (data) {
             var msaFileDataLines = data.split("\n"),
                 msaColsArr = [], msaCols, mdivDict = {};
 
-            // console.log(msaFileDataLines.length)
             let tempArr = [];
             for (let i = 5; i < msaFileDataLines.length; i++) {
-                // console.log(zipFileDataLines[i])
-                // console.log("NewLine1")
+
                 msaCols = msaFileDataLines[i].split(",");
                 //create dict for cbsa
                 tempArr = [];
@@ -72,7 +65,6 @@ exports.read_a_task = function(req, res) {
                 }
             }
         findMSA(cbsaArr, msaColsArr, mdivDict);
-            // res.json(mdivDict);
 
         })
     }
@@ -97,7 +89,6 @@ exports.read_a_task = function(req, res) {
                         selectedOuput['MSA'] = cbsaDetail[d][2];
                         selectedOuput['Pop2015'] = cbsaDetail[d][5];
                         selectedOuput['Pop2014'] = cbsaDetail[d][4];
-                        // selectedMSADetail.push(selectedOuput);
                         break;
                     }
                 }
@@ -111,7 +102,6 @@ exports.read_a_task = function(req, res) {
                         selectedOuput['MSA'] = msaColsArr[j][2];
                         selectedOuput['Pop2015'] = msaColsArr[j][5];
                         selectedOuput['Pop2014'] = msaColsArr[j][4];
-                        // selectedMSADetail.push(selectedOuput);
                         break;
                     }
                 }
@@ -119,7 +109,6 @@ exports.read_a_task = function(req, res) {
             selectedMSADetail.push(selectedOuput);
 
         }
-        console.log(selectedMSADetail);
         res.json(selectedMSADetail);
     }
 };
